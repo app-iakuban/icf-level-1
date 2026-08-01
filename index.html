@@ -5,23 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <base href="/icf-level-1/">
 <link rel="canonical" href="https://iakuban.com/icf-level-1">
-<!-- Google tag (gtag.js) -->
+<!-- Consent Mode v2: по умолчанию всё denied, согласием управляет CookieHub (explicit opt-in) -->
+<script>
+window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}
+gtag('consent','default',{
+  'ad_storage':'denied',
+  'ad_user_data':'denied',
+  'ad_personalization':'denied',
+  'analytics_storage':'denied',
+  'wait_for_update':500
+});
+gtag('set','url_passthrough',true);
+gtag('set','ads_data_redaction',true);
+</script>
+<!-- CookieHub CMP (домен iakuban.com, код 57650153) — до всех остальных скриптов -->
+<script src="https://cdn.cookiehub.eu/c2/57650153.js"></script>
+<script type="text/javascript">
+document.addEventListener("DOMContentLoaded", function(event) {
+  var cpm = {};
+  window.cookiehub.load(cpm);
+});
+</script>
+<!-- Google Analytics (GA4) G-Y2D060K2Z4 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2D060K2Z4"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-Y2D060K2Z4');
+gtag('js',new Date());
+gtag('config','G-Y2D060K2Z4');
 </script>
-<!-- Yandex.Metrika -->
-<script>
-  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],
-  k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-  (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-  ym(109783359, "init", {clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true});
+<!-- Yandex.Metrika 109783359 — разблокируется CookieHub'ом только при согласии на analytics;
+     вебвизор выключен (отдельного согласия на запись сессий нет) -->
+<script type="text/plain" data-consent="analytics">
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();
+  for(var j=0;j<document.scripts.length;j++){if(document.scripts[j].src===r){return;}}
+  k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");
+  ym(109783359,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:false});
 </script>
-<noscript><div><img src="https://mc.yandex.ru/watch/109783359" style="position:absolute;left:-9999px" alt=""></div></noscript>
 <title>ICF Level 1 «Магия и наука коучинга» — станьте коучем ICF за 3 месяца | Iakuban Coaching Academy</title>
 <meta name="description" content="Программа подготовки коучей ICF Level 1: 75 часов, ведёт лично Алексей Якубан (PCC), клиенты уже во время обучения. Старт потока — 8 августа.">
 <meta property="og:title" content="ICF Level 1 «Магия и наука коучинга» — Iakuban Coaching Academy">
@@ -428,6 +447,15 @@
        align-items:center;justify-content:space-between;gap:24px;padding:28px 34px;max-width:860px;flex-wrap:wrap}
   .faq-more .t{font-size:17px;font-weight:500}
   .faq-more .s{font-size:14px;color:var(--ink-soft);margin-top:4px}
+
+  /* ─── CookieHub: дефолтная тема виджета красная (#E42127, Arial) — подгонка под бренд.
+       Виджет красится переменной --cookiehub-primary-color на .ch2 * + хардкодом в своих правилах ─── */
+  .ch2 *{--cookiehub-primary-color:#3D3DF0!important}
+  .ch2-dialog .ch2-btn,.ch2-settings .ch2-btn{font-family:var(--body)!important;font-weight:500!important;border-radius:10px!important}
+  .ch2-style-light .ch2-btn-primary,.ch2-style-dark .ch2-btn-primary{background:var(--grad)!important;color:#fff!important;border:none!important}
+  .ch2-style-light .ch2-btn-primary:hover,.ch2-style-dark .ch2-btn-primary:hover{background:var(--grad)!important;box-shadow:0 0 20px 0 rgba(61,61,240,.4)!important}
+  .ch2-style-light .ch2-switch input:checked+label,.ch2-style-dark .ch2-switch input:checked+label{background:#3D3DF0!important}
+  .ch2-dialog a,.ch2-settings a{color:#3D3DF0!important}
 
   /* ─── FOOTER ─── */
   footer{background:var(--dark);color:var(--ink-dim);padding:46px 0 54px;font-size:13.5px;line-height:1.7}
