@@ -72,12 +72,41 @@
   .btn-lg{font-size:17px;font-weight:500;padding:19px 44px;border-radius:12px;
           box-shadow:0 12px 34px rgba(61,61,240,.38)}
 
-  /* ─── HEADER ─── */
+  /* ─── HEADER (структура как на главной iakuban.com: лого + меню; без «Войти» и «Подобрать коуча») ─── */
   .header{position:absolute;inset:0 0 auto 0;z-index:10}
-  .header-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:36px;padding:22px 20px}
+  .header-in{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:22px 20px}
   .logo{display:inline-block}
-  .logo img{display:block;height:25px;width:auto}
-  .header .btn{margin-left:auto}
+  .logo img{display:block;height:clamp(18px,1.3vw,25px);width:auto}
+  .nav{display:flex;align-items:center;gap:26px;margin-left:auto}
+  .nav>a,.nav-btn{font-family:var(--body);font-size:15px;line-height:1.5;color:rgba(255,255,255,.9);
+                  text-decoration:none;transition:color .2s}
+  .nav>a:hover,.nav-btn:hover{color:#fff}
+  .nav-item{position:relative}
+  .nav-btn{display:inline-flex;align-items:center;gap:5px;background:none;border:0;cursor:pointer;padding:0}
+  .nav-btn svg{transition:transform .2s}
+  .nav-item.open .nav-btn svg{transform:rotate(180deg)}
+  .nav-drop{position:absolute;top:100%;left:0;padding-top:14px;display:none}
+  .nav-item.open .nav-drop{display:block}
+  @media (hover:hover){.nav-item:hover .nav-drop{display:block}.nav-item:hover .nav-btn svg{transform:rotate(180deg)}}
+  .nav-drop-in{min-width:220px;background:#fff;border-radius:12px;padding:8px;
+               box-shadow:0 8px 30px rgba(0,0,0,.12)}
+  .nav-drop-in a{display:block;border-radius:8px;padding:10px 16px;font-size:14px;line-height:1.3;
+                 color:#28345B;text-decoration:none;white-space:nowrap;transition:background .15s}
+  .nav-drop-in a:hover{background:rgba(69,85,211,.05)}
+  .nav-toggle{display:none;background:none;border:0;cursor:pointer;color:#fff;padding:8px;margin-left:auto}
+  .mobile-menu{display:none;background:#212124;border-top:1px solid rgba(255,255,255,.08);
+               padding:10px 20px 18px}
+  .mobile-menu a{display:block;padding:12px 0;font-size:16px;color:rgba(255,255,255,.9);
+                 text-decoration:none;border-bottom:1px solid rgba(255,255,255,.06)}
+  .mobile-menu a:last-child{border-bottom:0}
+  .mobile-menu .mm-group{padding:12px 0 4px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;
+                         color:rgba(255,255,255,.45)}
+  @media (max-width:760px){
+    .nav,.header .btn{display:none}
+    .nav-toggle{display:inline-flex}
+    .header.menu-open{position:fixed;background:#212124}
+    .header.menu-open .mobile-menu{display:block}
+  }
 
   /* ─── HERO ─── */
   .hero{background:radial-gradient(1200px 700px at 78% 10%,#232327 0%,var(--dark) 55%);
@@ -443,11 +472,38 @@
 </head>
 <body>
 
-<header class="header">
+<header class="header" id="site-header">
   <div class="header-in">
-    <a class="logo" href="#" aria-label="IAKUBAN"><img src="assets/iakuban-logo.svg" alt="IAKUBAN" width="182" height="25"></a>
+    <a class="logo" href="https://iakuban.com/" aria-label="IAKUBAN — на главную"><img src="assets/iakuban-logo.svg" alt="IAKUBAN" width="182" height="25"></a>
+    <nav class="nav" aria-label="Основная навигация">
+      <div class="nav-item" id="nav-academy">
+        <button type="button" class="nav-btn" aria-expanded="false" aria-haspopup="true">Академия
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="nav-drop">
+          <div class="nav-drop-in">
+            <a href="https://iakuban.com/coaching-from-zero">Введение в коучинг</a>
+            <a href="https://iakuban.com/coaching-as-a-business">Профессия коуч</a>
+            <a href="https://iakuban.com/icf-level-1" aria-current="page">ICF Level 1</a>
+            <a href="https://iakuban.com/icf-level-2">ICF Level 2</a>
+          </div>
+        </div>
+      </div>
+      <a href="https://iakuban.com/about">О нас</a>
+    </nav>
     <a class="btn btn-sm" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20ICF%20Level%201" target="_blank" rel="noopener">Оставить заявку</a>
+    <button type="button" class="nav-toggle" aria-label="Меню" aria-expanded="false" aria-controls="mobile-menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+    </button>
   </div>
+  <nav class="mobile-menu" id="mobile-menu" aria-label="Меню">
+    <p class="mm-group">Академия</p>
+    <a href="https://iakuban.com/coaching-from-zero">Введение в коучинг</a>
+    <a href="https://iakuban.com/coaching-as-a-business">Профессия коуч</a>
+    <a href="https://iakuban.com/icf-level-1" aria-current="page">ICF Level 1</a>
+    <a href="https://iakuban.com/icf-level-2">ICF Level 2</a>
+    <a href="https://iakuban.com/about">О нас</a>
+  </nav>
 </header>
 
 <main>
@@ -989,12 +1045,31 @@
       <a href="https://t.me/iakuban_team">Telegram</a>
     </div>
     <div>
-      <a href="#">Политика конфиденциальности</a><br>
-      <a href="#">Договор оферты</a><br>
-      <a href="#">Кодекс коучей</a>
+      <a href="https://iakuban.com/legal/privacy-policy">Политика конфиденциальности</a><br>
+      <a href="https://iakuban.com/legal/offer-agreement">Договор оферты</a><br>
+      <a href="https://iakuban.com/legal/code-of-conduct">Кодекс коучей</a>
     </div>
   </div>
 </footer>
 
+<script>
+(function(){
+  var item=document.getElementById('nav-academy'),
+      btn=item.querySelector('.nav-btn'),
+      header=document.getElementById('site-header'),
+      burger=header.querySelector('.nav-toggle');
+  function setDrop(open){item.classList.toggle('open',open);btn.setAttribute('aria-expanded',open)}
+  btn.addEventListener('click',function(e){e.stopPropagation();setDrop(!item.classList.contains('open'))});
+  document.addEventListener('click',function(e){if(!item.contains(e.target))setDrop(false)});
+  burger.addEventListener('click',function(){
+    var open=!header.classList.contains('menu-open');
+    header.classList.toggle('menu-open',open);
+    burger.setAttribute('aria-expanded',open);
+  });
+  document.addEventListener('keydown',function(e){
+    if(e.key==='Escape'){setDrop(false);header.classList.remove('menu-open');burger.setAttribute('aria-expanded','false')}
+  });
+})();
+</script>
 </body>
 </html>
