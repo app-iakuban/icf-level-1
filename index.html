@@ -26,11 +26,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
   window.cookiehub.load(cpm);
 });
 </script>
-<!-- Google Analytics (GA4) G-Y2D060K2Z4 -->
+<!-- Google Analytics (GA4) G-Y2D060K2Z4 + Google Ads AW-17650633966 -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2D060K2Z4"></script>
 <script>
 gtag('js',new Date());
 gtag('config','G-Y2D060K2Z4');
+gtag('config','AW-17650633966');
 </script>
 <!-- Yandex.Metrika 109783359 — разблокируется CookieHub'ом только при согласии на analytics;
      вебвизор выключен (отдельного согласия на запись сессий нет) -->
@@ -1435,6 +1436,17 @@ gtag('config','G-Y2D060K2Z4');
     if (e.target.closest('.lb-close') || e.target === lb) { stopMedia(); lb.close(); }
   });
   lb.addEventListener('close', stopMedia);
+})();
+</script>
+<!-- Google Ads: конверсия «CTA Telegram — ICF Level 1 (лендинг)» по клику на любую Telegram-ссылку -->
+<script>
+(function(){
+  document.addEventListener('click',function(e){
+    var a=e.target.closest&&e.target.closest('a[href^="https://t.me/"]');
+    if(!a)return;
+    try{gtag('event','conversion',{'send_to':'AW-17650633966/8pFACJzSm-EcEO6ZveBB','transport_type':'beacon'});}catch(err){}
+    try{gtag('event','cta_telegram_click',{'link_url':a.href,'transport_type':'beacon'});}catch(err){}
+  },true);
 })();
 </script>
 </body>
