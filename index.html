@@ -357,7 +357,24 @@ gtag('config','AW-17650633966');
   /* ─── КЕЙСЫ ─── */
   .cases{padding:0 0 100px}
   .cases-head{max-width:720px;margin-bottom:48px}
-  .cases-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  /* карусель кейсов (паттерн со страницы /reviews/level-1, 17.08.2026) */
+  .crail-shell{position:relative}
+  .cases-grid{display:grid;grid-auto-flow:column;grid-auto-columns:min(420px,86vw);gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 6px 26px;scrollbar-width:thin;scrollbar-color:#C9C9D4 transparent;
+    -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent);mask-image:linear-gradient(to right,#000 calc(100% - 56px),transparent)}
+  .cases-grid.at-end{-webkit-mask-image:none;mask-image:none}
+  .cases-grid::-webkit-scrollbar{height:6px}
+  .cases-grid::-webkit-scrollbar-thumb{background:#C9C9D4;border-radius:3px}
+  .cases-grid::-webkit-scrollbar-track{background:transparent}
+  .cases-grid:focus-visible{outline:3px solid #3D3DF0;outline-offset:3px}
+  .case{scroll-snap-align:start}
+  .cvideo{display:inline-flex;align-items:center;gap:8px;margin-top:18px;border:0;background:none;padding:0;font-family:var(--body);font-size:14px;font-weight:500;color:#3D3DF0;cursor:pointer;text-align:left}
+  .cvideo:hover{text-decoration:underline}
+  .cvideo .ic{position:relative;width:22px;height:22px;flex:0 0 22px;border-radius:50%;background:var(--grad)}
+  .cvideo .ic::after{content:'';position:absolute;left:56%;top:50%;transform:translate(-50%,-50%);border-style:solid;border-width:4px 0 4px 7px;border-color:transparent transparent transparent #fff}
+  .crail-nav{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+  .cnav{width:42px;height:42px;border-radius:50%;border:1px solid #86868E;background:#fff;color:#1D1D1F;font-size:17px;cursor:pointer;transition:border-color .15s ease,transform .15s ease} /* #86868E: ≥3:1 — порог UI */
+  .cnav:hover{border-color:#1D1D1F;transform:translateY(-1px)}
+  .cnav:disabled{opacity:.35;cursor:default;transform:none}
   .case{background:#fff;border:1px solid #ECECEF;border-radius:22px;padding:34px 34px 30px;display:flex;flex-direction:column}
   .case-top{display:flex;align-items:center;gap:16px;margin-bottom:20px}
   .case-top img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 25%}
@@ -542,7 +559,7 @@ gtag('config','AW-17650633966');
     .fact{padding:14px 18px}
     .fact + .fact::before{display:none}
     .whom-grid,.program-grid,.included-grid,.price-grid{grid-template-columns:1fr 1fr}
-    .system-grid,.cases-grid,.cert-grid,.interview-card,.whom-grid{grid-template-columns:1fr}
+    .system-grid,.cert-grid,.interview-card,.whom-grid{grid-template-columns:1fr}
     .values-grid{grid-template-columns:1fr 1fr}
     .agenda{grid-template-columns:1fr;padding:10px 26px}
     .team-lead{grid-template-columns:1fr}
@@ -556,6 +573,8 @@ gtag('config','AW-17650633966');
     .sys-points{grid-template-columns:1fr}
   }
   @media (max-width:640px){
+    .cases-grid{grid-auto-columns:86vw;padding-bottom:20px}
+    .crail-nav{display:none} /* на таче листают пальцем */
     .proof{flex-wrap:wrap;gap:14px}
     .whom-card{grid-template-columns:1fr}
     .whom-card img{height:170px}
@@ -1110,12 +1129,13 @@ gtag('config','AW-17650633966');
 </section>
 
 <!-- КЕЙСЫ -->
-<section class="cases">
+<section class="cases" id="cases">
   <div class="wrap">
     <div class="cases-head">
       <h2 class="sec-title">Результаты выпускников</h2>
     </div>
-    <div class="cases-grid">
+    <div class="crail-shell">
+    <div class="cases-grid" id="crail" tabindex="0" role="region" aria-label="Кейсы выпускников — прокручивайте, чтобы увидеть больше">
       <article class="case">
         <div class="case-top">
           <img src="assets/tamilla.jpg" alt="Тамилла Бухмиллер" width="64" height="64" loading="lazy">
@@ -1126,6 +1146,19 @@ gtag('config','AW-17650633966');
           <div class="row now"><span>500 000 ₽ за первый месяц коучинга, затем 1,3 млн ₽/мес; свой тренинг и книга</span></div>
         </div>
         <q>Всё сложилось в 10 раз ярче. Я даже не предполагала, что вообще вот так всё может закрутиться и развиться.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/2qUaNpQuDxBaRTFfddXxmS" data-name="Тамилла Бухмиллер" data-quote="«Всё сложилось в 10 раз ярче. Я даже не предполагала, что вообще вот так всё может закрутиться и развиться.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
+      </article>
+      <article class="case">
+        <div class="case-top">
+          <img src="assets/reviews/p3_02_yaroslav_mudriy.jpg" alt="Ярослав Мудрый" width="64" height="64" loading="lazy">
+          <div><div class="name">Ярослав Мудрый</div><div class="role">коуч, практика онлайн</div></div>
+        </div>
+        <div class="case-ab">
+          <div class="row was"><span>год стагнации и растерянности, доход упёрся в потолок</span></div>
+          <div class="row now"><span>первые 500 € на коучинге уже в начале обучения; практика переведена в онлайн, коучинг стал основным делом</span></div>
+        </div>
+        <q>Я поменял свои взгляды, поменял своё мышление — моя жизнь поменялась на 180 градусов.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/s2vdGLA5Q6VXKdDaojsjNo" data-name="Ярослав Мудрый" data-quote="«Я поменял свои взгляды, поменял своё мышление — моя жизнь поменялась на 180 градусов.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
       </article>
       <article class="case">
         <div class="case-top">
@@ -1137,17 +1170,19 @@ gtag('config','AW-17650633966');
           <div class="row now"><span>коуч ICF с доходом 3 700 € в месяц, коучинг встроен в продукт, запущен YouTube-проект</span></div>
         </div>
         <q>В масштабе всего, что со мной произошло — я реально сорвала куш. Идите в коучинг, если хотите прожить жизнь по плюсу.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/6NjH16KYq4wyHMNEwH6c9H" data-name="Яромила Юланова" data-quote="«В масштабе всего, что со мной произошло — я реально сорвала куш.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
       </article>
       <article class="case">
         <div class="case-top">
-          <img src="assets/timonina.jpg" alt="Ольга Тимонина" width="64" height="64" loading="lazy">
-          <div><div class="name">Ольга Тимонина</div><div class="role">предприниматель, коуч ICF</div></div>
+          <img src="assets/reviews/p3_06_nina_marabyan.jpg" alt="Нина Марабян" width="64" height="64" loading="lazy">
+          <div><div class="name">Нина Марабян</div><div class="role">выпускница 3 потока</div></div>
         </div>
         <div class="case-ab">
-          <div class="row was"><span>помогающая практика как хобби, без системы и ниши</span></div>
-          <div class="row now"><span>ниша и аудитория найдены прямо на курсе, собрала группу на 2 500 € — обучение окупается</span></div>
+          <div class="row was"><span>без своего дохода, «не знала, чего хочу от жизни и куда идти»</span></div>
+          <div class="row now"><span>долгосрочные клиентские контракты, пост с одним коучинговым вопросом набрал 55 000 в Threads</span></div>
         </div>
-        <q>Тебя настолько сильно крутят со всех сторон, что у тебя нет ни одного шанса остаться прежним.</q>
+        <q>Ты понимаешь: ты крутой — и у тебя всё обязательно стартанёт и получится. Коучинг — это взлёт.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/5Jm33oDy8Muxd75U39WjFW" data-name="Нина Марабян" data-quote="«Коучинг — это взлёт.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
       </article>
       <article class="case">
         <div class="case-top">
@@ -1159,7 +1194,49 @@ gtag('config','AW-17650633966');
           <div class="row now"><span>собрала свою группу и заработала 5 700 € ещё во время обучения</span></div>
         </div>
         <q>Выхожу из процесса обучения с новым уровнем уверенности и ценности себя как профессионала.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/srLE43FYwnFvAygTfB5VAg" data-name="Мария Силаева" data-quote="«Выхожу из процесса обучения с новым уровнем уверенности и ценности себя как профессионала.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
       </article>
+      <article class="case">
+        <div class="case-top">
+          <img src="assets/timonina.jpg" alt="Ольга Тимонина" width="64" height="64" loading="lazy">
+          <div><div class="name">Ольга Тимонина</div><div class="role">предприниматель, коуч ICF</div></div>
+        </div>
+        <div class="case-ab">
+          <div class="row was"><span>помогающая практика как хобби, без системы и ниши</span></div>
+          <div class="row now"><span>ниша и аудитория найдены прямо на курсе, собрала группу на 2 500 € — обучение окупается</span></div>
+        </div>
+        <q>Тебя настолько сильно крутят со всех сторон, что у тебя нет ни одного шанса остаться прежним.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/eUxz8sa19yxVXog1bprrXr" data-name="Ольга Тимонина" data-quote="«Тебя настолько сильно крутят со всех сторон, что у тебя нет ни одного шанса остаться прежним.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
+      </article>
+      <article class="case">
+        <div class="case-top">
+          <img src="assets/reviews/p3_09_nursulu_tsupko.jpg" alt="Нурсулу Цупко" width="64" height="64" loading="lazy">
+          <div><div class="name">Нурсулу Цупко</div><div class="role">эксперт, выпускница 3 потока</div></div>
+        </div>
+        <div class="case-ab">
+          <div class="row was"><span>боялась проявляться, коучинг был одним из направлений «на пробу»</span></div>
+          <div class="row now"><span>пошла в проявленность: охваты рилс выросли на 100%, два клиента в долгом контракте, впереди Level 2</span></div>
+        </div>
+        <q>Здесь человек реально получает не только теорию, но и навык работать с клиентами.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/0p7dy34naZgDuaex1zTGF8" data-name="Нурсулу Цупко" data-quote="«Здесь человек реально получает не только теорию, но и навык работать с клиентами.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
+      </article>
+      <article class="case">
+        <div class="case-top">
+          <img src="assets/reviews/p3_10_artur_belyi.jpg" alt="Артур Белый" width="64" height="64" loading="lazy">
+          <div><div class="name">Артур Белый</div><div class="role">руководитель B2B-продаж, финансовый сектор</div></div>
+        </div>
+        <div class="case-ab">
+          <div class="row was"><span>директивный стиль: «слушать людей вообще не способен — обычно это меня должны слушать»</span></div>
+          <div class="row now"><span>ведёт коуч-сессии, перестроил управление командой: больше вопросов, меньше давления — результаты растут</span></div>
+        </div>
+        <q>Сотрудники кайфуют: я стал задавать им больше вопросов и меньше давить.</q>
+        <button class="cvideo" data-video="https://kinescope.io/embed/4ABtau8B6kxYtDFDchBpjk" data-name="Артур Белый" data-quote="«Сотрудники кайфуют: я стал задавать им больше вопросов и меньше давить.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
+      </article>
+    </div>
+    <div class="crail-nav">
+      <button class="cnav" id="cprev" type="button" aria-label="Предыдущие кейсы">&#8592;</button>
+      <button class="cnav" id="cnext" type="button" aria-label="Следующие кейсы">&#8594;</button>
+    </div>
     </div>
   </div>
 </section>
@@ -1497,6 +1574,26 @@ gtag('config','AW-17650633966');
     if (e.target.closest('.lb-close') || e.target === lb) { stopMedia(); lb.close(); }
   });
   lb.addEventListener('close', stopMedia);
+
+  /* карусель кейсов (паттерн со страницы /reviews/level-1) */
+  var rail = document.getElementById('crail');
+  if (rail) {
+    var step = function(){ var c = rail.querySelector('.case'); return c ? c.getBoundingClientRect().width + 20 : 440; };
+    var prev = document.getElementById('cprev'), next = document.getElementById('cnext');
+    var railBehavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    function syncNav(){
+      var atEnd = rail.scrollLeft > rail.scrollWidth - rail.clientWidth - 10;
+      rail.classList.toggle('at-end', atEnd);
+      if (!prev) return;
+      prev.disabled = rail.scrollLeft < 10;
+      next.disabled = atEnd;
+    }
+    if (prev) prev.addEventListener('click', function(){ rail.scrollBy({left: -step(), behavior: railBehavior}); });
+    if (next) next.addEventListener('click', function(){ rail.scrollBy({left: step(), behavior: railBehavior}); });
+    rail.addEventListener('scroll', syncNav, {passive:true});
+    window.addEventListener('resize', syncNav, {passive:true});
+    syncNav();
+  }
 })();
 </script>
 <!-- Google Ads: конверсия «CTA Telegram — ICF Level 1 (лендинг)» по клику на любую Telegram-ссылку -->
