@@ -473,6 +473,11 @@ gtag('config','AW-17650633966');
  .pricing-head{max-width:760px;margin-bottom:50px}
  .pricing-sub{font-size:16.5px;line-height:1.6;color:var(--ink-soft);margin-top:16px}
  .pricing-sub b{color:#fff;font-weight:500}
+ .ladder-note{margin-top:24px;background:rgba(255,201,107,.07);border:1px solid rgba(255,201,107,.32);border-radius:16px;padding:18px 24px}
+ .ladder-note p{font-size:15.5px;line-height:1.6;color:var(--ink-soft)}
+ .ladder-note p+p{margin-top:8px}
+ .ladder-note .ladder-next b{color:#FFC96B;font-weight:600}
+ .ladder-note .ladder-max span{color:#fff;font-weight:600;white-space:nowrap}
  .price-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:22px;align-items:stretch}
  .plan{background:var(--dark-2);border:1px solid rgba(255,255,255,.09);border-radius:24px;
  padding:38px 34px 34px;display:flex;flex-direction:column;position:relative}
@@ -1465,6 +1470,25 @@ gtag('config','AW-17650633966');
  <p class="pricing-sub">Во всех тарифах — полная программа 75 часов, сертификат ICF Level 1 и <b>4 индивидуальные коуч-сессии</b>. Отличается уровень коуча, который работает с вами лично.</p>
  <p class="pricing-sub"><b>Месяц рассрочки перекрывается одним клиентом</b> на регулярных сессиях — платная практика начинается ещё во время обучения.</p>
  <p class="pricing-sub">Стоимость обучения коучингу ICF фиксируется на собеседовании. В цену уже включены менторинг, супервизия и подготовка к сертификации ACC — у многих школ это отдельная доплата.</p>
+ <div class="ladder-note">
+ <p class="ladder-next" id="ladder-next">Следующее повышение цены — <b id="ladder-date">26 сентября, 19:00</b> по центральноевропейскому времени: <b>+100 €</b> ко всем тарифам.</p>
+ <p class="ladder-max">К старту потока 5 декабря цена достигнет максимума: «Мудрец» — <span>2&nbsp;500&nbsp;€</span>, «Правитель» — <span>3&nbsp;150&nbsp;€</span>, «Маг» — <span>3&nbsp;700&nbsp;€</span> одним платежом, в рассрочку — до 2&nbsp;900&nbsp;/ 3&nbsp;650&nbsp;/ 4&nbsp;300&nbsp;€. Сегодняшняя цена ниже — и на собеседовании она фиксируется за вами.</p>
+ </div>
+ <script>
+ (function(){
+ var steps=[["2026-08-29T17:00:00Z","сегодня, 29 августа, 19:00"],
+ ["2026-09-26T17:00:00Z","26 сентября, 19:00"],
+ ["2026-10-24T17:00:00Z","24 октября, 19:00"],
+ ["2026-11-21T17:00:00Z","21 ноября, 18:00"],
+ ["2026-12-05T17:00:00Z","5 декабря, 18:00"]];
+ var el=document.getElementById("ladder-date"),row=document.getElementById("ladder-next");
+ if(!el||!row)return;
+ for(var i=0;i<steps.length;i++){
+ if(Date.now()<Date.parse(steps[i][0])){el.textContent=steps[i][1];return;}
+ }
+ row.innerHTML="Все повышения прошли — действует максимальная цена потока.";
+ })();
+ </script>
  </div>
  <div class="price-grid">
  <div class="plan featured">
@@ -1491,7 +1515,7 @@ gtag('config','AW-17650633966');
  <li class="diff">4 индивидуальные коуч-сессии с коучем <b>PCC ICF</b> — уровень, к которому вы идёте</li>
  </ul>
  <p class="extra">Внутренняя рассрочка — <b>от <span data-s="p-month">254</span> €/мес</b></p>
- <p class="seats" data-s="p-seats">Всего <b>3 места</b> в тарифе</p>
+ <p class="seats" data-s="p-seats">Всего <b>3 места</b> в потоке</p>
  <a class="btn btn-lg" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20ICF%20Level%201" target="_blank" rel="noopener">Записаться на собеседование</a>
  </div>
  <div class="plan">
@@ -1503,11 +1527,11 @@ gtag('config','AW-17650633966');
  <li class="diff">4 индивидуальные коуч-сессии лично с <b>Алексеем Якубаном</b> + стратегия вашей практики</li>
  </ul>
  <p class="extra">Внутренняя рассрочка — <b>от <span data-s="g-month">308</span> €/мес</b></p>
- <p class="seats" data-s="g-seats">Всего <b>3 места</b> в тарифе</p>
+ <p class="seats" data-s="g-seats">Всего <b>3 места</b> в потоке</p>
  <a class="btn btn-lg" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20ICF%20Level%201" target="_blank" rel="noopener">Записаться на собеседование</a>
  </div>
  </div>
- <p class="pricing-foot">Рассрочка доступна на 3, 6 и 12 месяцев — без банка и процентов. Стоимость программы растёт раз в месяц: цена фиксируется на собеседовании, и оно ни к чему не обязывает. Сомневаетесь? <a href="https://iakuban.com/reviews/level-1/">Посмотрите, что говорят выпускники →</a></p>
+ <p class="pricing-foot">Рассрочка доступна на 3, 6 и 12 месяцев — без банка и процентов. Стоимость программы растёт по расписанию повышений: цена фиксируется на собеседовании, и оно ни к чему не обязывает. Сомневаетесь? <a href="https://iakuban.com/reviews/level-1/">Посмотрите, что говорят выпускники →</a></p>
  </div>
 </section>
 
