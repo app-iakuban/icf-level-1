@@ -26,12 +26,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
  window.cookiehub.load(cpm);
 });
 </script>
-<!-- Google Analytics (GA4) G-Y2D060K2Z4 + Google Ads AW-17650633966 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Y2D060K2Z4"></script>
+<!-- Google Analytics (GA4) G-Y2D060K2Z4 + Google Ads AW-17650633966.
+ Внутренний режим (?internal=1, флаг в localStorage) счётчики не поднимает:
+ наши проверки сайта не должны идти ни в GA4, ни в Метрику. Тот же ключ читает
+ Nuxt (nuxt-src/lib/internalMode.ts) и чат (chat-widget.js). -->
 <script>
-gtag('js',new Date());
-gtag('config','G-Y2D060K2Z4');
-gtag('config','AW-17650633966');
+(function(){
+ var internal=false;
+ try{
+  var p=new URLSearchParams(location.search).get('internal');
+  if(p==='1')localStorage.setItem('iakuban_internal','1');
+  if(p==='0'||p==='false')localStorage.removeItem('iakuban_internal');
+  internal=localStorage.getItem('iakuban_internal')==='1';
+ }catch(e){}
+ if(internal){
+  document.addEventListener('DOMContentLoaded',function(){
+   var t=document.querySelectorAll('script[type="text/plain"][data-consent]');
+   for(var i=0;i<t.length;i++)t[i].parentNode.removeChild(t[i]);
+  });
+  return;
+ }
+ var s=document.createElement('script');
+ s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-Y2D060K2Z4';
+ document.head.appendChild(s);
+ gtag('js',new Date());
+ gtag('config','G-Y2D060K2Z4');
+ gtag('config','AW-17650633966');
+})();
 </script>
 <!-- Yandex.Metrika 109783359 — разблокируется CookieHub'ом только при согласии на analytics;
  вебвизор выключен (отдельного согласия на запись сессий нет) -->
@@ -1029,6 +1050,9 @@ gtag('config','AW-17650633966');
   if(/[?&](utm_|gclid|yclid|gad_|fbclid)/.test(location.search) && !get('ihLeadSrc')){
     set('ihLeadSrc', location.search.slice(1));
   }
+  // копия в памяти: CookieHub по «Запретить все» чистит sessionStorage целиком
+  // (проверено 08.09.2026), а источник нужен и тому, кто отказался от cookie
+  var memSrc = get('ihLeadSrc') || '';
 
   var code = get('ihLeadCode');
   if(!code){
@@ -1057,8 +1081,11 @@ gtag('config','AW-17650633966');
   document.addEventListener('click', function(e){
     var a = e.target.closest && e.target.closest('a[href^="https://t.me/"]');
     if(!a) return;
+    var src = get('ihLeadSrc') || memSrc ||
+      (/[?&](utm_|gclid|yclid|gad_|fbclid)/.test(location.search) ? location.search.slice(1) : '');
+    set('ihLeadCode', code); if(src) set('ihLeadSrc', src);
     var q = 'ihlc=' + code +
-      '&src=' + encodeURIComponent(get('ihLeadSrc') || '') +
+      '&src=' + encodeURIComponent(src) +
       '&ref=' + encodeURIComponent(document.referrer || '');
     try { fetch(location.pathname + '?' + q, {method:'HEAD', keepalive:true, cache:'no-store'}); } catch(err){}
     try { gtag('event','tg_lead_code',{'lead_code': code, 'transport_type':'beacon'}); } catch(err){}
@@ -1069,7 +1096,7 @@ gtag('config','AW-17650633966');
      и тот же виджет работает и здесь, и на страницах платформы. Подключение
      живёт в шапке, потому что она уже разъезжается по всем лендингам одной
      командой и другого общего блока у статики нет. -->
-<script src="https://iakuban.com/chat-widget.js?v=20260907-1" defer></script>
+<script src="https://iakuban.com/chat-widget.js?v=20260908-1" defer></script>
 <!-- IH-HEADER:END -->
 
 <main>
