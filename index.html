@@ -19,11 +19,33 @@ gtag('set','url_passthrough',true);
 gtag('set','ads_data_redaction',true);
 </script>
 <!-- CookieHub CMP (домен iakuban.com, код 57650153) — до всех остальных скриптов -->
-<script src="https://cdn.cookiehub.eu/c2/57650153.js"></script>
+<!-- С 10.10.2026 CookieHub грузится через наш домен: /cookiehub/ проксирует nginx landings к cdn.cookiehub.eu.
+ CDN CookieHub на Bunny, россиянам он иногда отдаёт узел Datacamp, который ТСПУ рвёт после 16 КБ:
+ баннера нет, GA4 и Метрика не стартуют. Не загрузился с нашего домена — запасной путь на CDN.
+ load() только через iakCookiehubStart: без CookieHub страница не падает (SEO/operations/2026-10-10_cookiehub_ru_delivery.md). -->
+<script src="/cookiehub/c2/57650153.js"></script>
+<script>
+(function(){
+ var CDN='https://cdn.cookiehub.eu',own=!!window.cookiehub,opts=null,done=false;
+ function fix(){
+  var h=window.__cookiehub,p=location.origin+'/cookiehub',k=['css','assets','dist','cdn'];
+  if(!own||!h)return;
+  for(var i=0;i<k.length;i++){if(typeof h[k[i]]==='string'&&h[k[i]].indexOf(CDN)===0)h[k[i]]=p+h[k[i]].slice(CDN.length);}
+ }
+ function go(){
+  var c=window.cookiehub;
+  if(done||!opts||!c||typeof c.load!=='function')return;
+  done=true;fix();
+  try{c.load(opts);}catch(e){}
+ }
+ window.iakCookiehubStart=function(o){opts=o||{};go();};
+ if(!own){var s=document.createElement('script');s.src=CDN+'/c2/57650153.js';s.onload=go;document.head.appendChild(s);}
+})();
+</script>
 <script type="text/javascript">
 document.addEventListener("DOMContentLoaded", function(event) {
  var cpm = {};
- window.cookiehub.load(cpm);
+ window.iakCookiehubStart(cpm);
 });
 </script>
 <!-- Google Analytics (GA4) G-Y2D060K2Z4 + Google Ads AW-17650633966.
@@ -64,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  ym(109783359,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true,webvisor:false});
 </script>
 <title>Обучение коучингу онлайн с сертификатом: аккредитация ICF</title>
-<meta name="description" content="Обучение коучингу онлайн и дистанционно: аккредитация ICF, Level 1, 75 часов за 3 месяца, сертификат и подготовка к квалификации ACC. Рассрочка без процентов.">
+<meta name="description" content="Обучение коучингу онлайн и дистанционно: аккредитация ICF, Level 1, 75 часов за 3 месяца, сертификат и подготовка к квалификации ACC. Внутренняя рассрочка от академии.">
 <meta property="og:title" content="«Магия и наука коучинга»: обучение коучингу, аккредитация ICF Level 1">
 <meta property="og:description" content="75 часов практики, международный сертификат ICF Level 1 и первые платящие клиенты во время обучения. Академия коучинга Алексея Якубана — набор через собеседование.">
 <meta property="og:type" content="website">
@@ -148,29 +170,29 @@ document.addEventListener("DOMContentLoaded", function(event) {
         {
           "@type": "Offer",
           "name": "Тариф «Мудрец»",
-          "price": "2200",
+          "price": "2300",
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
           "availability": "https://schema.org/InStock",
-          "priceValidUntil": "2026-10-23"
+          "priceValidUntil": "2026-11-20"
         },
         {
           "@type": "Offer",
           "name": "Тариф «Правитель»",
-          "price": "2850",
+          "price": "2950",
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
           "availability": "https://schema.org/InStock",
-          "priceValidUntil": "2026-10-23"
+          "priceValidUntil": "2026-11-20"
         },
         {
           "@type": "Offer",
           "name": "Тариф «Маг»",
-          "price": "3400",
+          "price": "3500",
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
           "availability": "https://schema.org/InStock",
-          "priceValidUntil": "2026-10-23"
+          "priceValidUntil": "2026-11-20"
         }
       ],
       "hasCourseInstance": {
@@ -221,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "name": "Есть ли рассрочка?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Да, внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов."
+            "text": "Да, внутренняя рассрочка на 3, 6 или 12 месяцев без банка."
           }
         },
         {
@@ -245,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "name": "Что я получу после окончания?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Сертификат Level 1 (75 часов), подготовку к сертификации ACC ICF, клиентскую практику и доступ к сообществу выпускников. Дальше — программа Level 2 до уровня PCC."
+            "text": "Сертификат академии о прохождении программы, аккредитованной ICF (Level 1), 75 часов, подготовку к заявке на квалификацию ACC, клиентскую практику и доступ к сообществу выпускников. Дальше — программа Level 2 до уровня PCC."
           }
         },
         {
@@ -261,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "name": "Сколько стоит обучение коучингу ICF?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Тариф «Мудрец» стоит 2 200 € одним платежом, «Правитель» 2 850 €, «Маг» 3 400 €. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов. В стоимость включены менторинг, супервизия и подготовка к сертификации ACC ICF; выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки."
+            "text": "Тариф «Мудрец» стоит 2 300 € одним платежом, «Правитель» 2 950 €, «Маг» 3 500 €. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов. В стоимость включены менторинг, супервизия и подготовка к сертификации ACC ICF; выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки."
           }
         },
         {
@@ -567,6 +589,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
  .case-top img{width:64px;height:64px;border-radius:50%;object-fit:cover;object-position:50% 25%}
  .case-top .name{font-size:16.5px;font-weight:600}
  .case-top .role{font-size:13.5px;color:#6B6B70;margin-top:2px}
+ /* Выпускник ведёт сессии на платформе (29.10.2026): имя — ссылка на профиль /<slug>, метка-кнопка рядом. Тач-зона ≥24px. */
+ .coach-name{color:inherit;text-decoration:none;display:inline-block;padding:2px 0;border-bottom:1px solid rgba(61,61,240,.35);line-height:1.3}
+ .coach-name:hover,.coach-name:focus-visible{color:var(--accent);border-bottom-color:var(--accent)}
+ .coach-tag{display:inline-flex;align-items:center;justify-content:center;min-height:28px;margin-top:6px;padding:4px 11px;border-radius:999px;background:rgba(61,61,240,.08);color:var(--accent);font-size:12.5px;font-weight:500;line-height:1.3;text-decoration:none;text-align:center;transition:background .18s ease}
+ .coach-tag:hover,.coach-tag:focus-visible{background:rgba(61,61,240,.16)}
+ .vcard .coach-tag{margin-top:8px}
+ .coach-tag .ct-short{display:none}
+ @media (max-width:600px){.coach-tag{font-size:12px;padding:4px 10px;max-width:100%;text-wrap:balance}.coach-tag .ct-long{display:none}.coach-tag .ct-short{display:inline}}
  .case-ab{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
  .case-ab .row{display:flex;gap:10px;font-size:15px;line-height:1.5}
  .case-ab .was{color:#6B6B70}
@@ -918,7 +948,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             <div class="ih-dd-panel">
               <div class="ih-dd-menu" role="menu">
           <a href="https://iakuban.com/coaching-from-zero/">Введение в коучинг</a>
-          <a href="https://iakuban.com/coaching-as-a-business/">Профессия коуч</a>
+          <a href="https://iakuban.com/coaching-as-a-business/">Коучинг для жизни и бизнеса</a>
           <a href="https://iakuban.com/icf-level-1/" aria-current="page">Обучение коучингу<span class="ih-dd-hint">аккредитация ICF, Level 1</span></a>
           <a href="https://iakuban.com/icf-level-2/">Продвинутая программа<span class="ih-dd-hint">аккредитация ICF, Level 2</span></a>
           <a href="https://iakuban.com/mentor-coaching-essentials/">Основы менторинга<span class="ih-dd-hint">аккредитация ICF, CCE</span></a>
@@ -935,7 +965,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           <button class="ih-m-btn" type="button" aria-expanded="false">Академия <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
           <div class="ih-m-sub">
           <a href="https://iakuban.com/coaching-from-zero/">Введение в коучинг</a>
-          <a href="https://iakuban.com/coaching-as-a-business/">Профессия коуч</a>
+          <a href="https://iakuban.com/coaching-as-a-business/">Коучинг для жизни и бизнеса</a>
           <a href="https://iakuban.com/icf-level-1/" aria-current="page">Обучение коучингу<span class="ih-dd-hint">аккредитация ICF, Level 1</span></a>
           <a href="https://iakuban.com/icf-level-2/">Продвинутая программа<span class="ih-dd-hint">аккредитация ICF, Level 2</span></a>
           <a href="https://iakuban.com/mentor-coaching-essentials/">Основы менторинга<span class="ih-dd-hint">аккредитация ICF, CCE</span></a>
@@ -1335,7 +1365,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <li>DISC и подстройка под клиента</li>
  <li>Миссия через ценности, метод Уолта Диснея</li>
  <li>Ассесмент и сертификация</li>
- <li>Мастермайнд по сертификации ACC ICF</li>
+ <li>Мастермайнд по подготовке к квалификации ACC</li>
  </ul>
  </div>
  </div>
@@ -1387,7 +1417,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>65 часов</b> живого тренинга с PCC-тренерами</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Все <b>8 компетенций ICF</b> до уровня ACC</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Практика в тройках на каждом тренинге</span></li>
- <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Курс <b>«Профессия коуч»</b> — сразу после оплаты</span></li>
+ <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Курс <b>«Коучинг для жизни и бизнеса»</b> — сразу после оплаты</span></li>
  </ul>
  </div>
  <div class="inc-group">
@@ -1396,7 +1426,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>7 часов группового</b> и <b>3 часа личного менторинга</b> — разбор именно ваших сессий</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Супервизия с коучем <b>PCC ICF</b> и групповая рефлексия</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>3 письменных разбора</b> ваших сессий — видно, что усилить</span></li>
- <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ассесмент в тройке (2 часа) — репетиция сертификации ACC</span></li>
+ <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Ассесмент в тройке (2 часа) — репетиция итоговой оценки</span></li>
  </ul>
  </div>
  <div class="inc-group">
@@ -1404,7 +1434,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <ul>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Модуль <b>«Продвижение коуча»</b> (4 часа): маркетинг и продажи</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Личная <b>страт-сессия</b> по вашей практике</span></li>
- <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Мастермайнд по сертификации <b>ACC ICF</b></span></li>
+ <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Мастермайнд по подготовке к квалификации <b>ACC</b></span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Куратор на связи все 3 месяца</span></li>
  </ul>
  </div>
@@ -1502,7 +1532,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <article class="case">
  <div class="case-top">
  <img src="assets/reviews/p3_06_nina_marabyan.jpg" alt="Нина Марабян" width="64" height="64" loading="lazy">
- <div><div class="name">Нина Марабян</div><div class="role">выпускница 3 потока</div></div>
+ <div><div class="name"><a class="coach-name" href="/marabian" data-coach-link="marabian">Нина Марабян</a></div><div class="role">выпускница 3 потока</div><a class="coach-tag" href="/marabian" data-coach-link="marabian" aria-label="Записаться на сессию: Нина Марабян, профиль коуча"><span class="ct-long">Ведёт сессии · записаться →</span><span class="ct-short">Записаться на сессию →</span></a></div>
  </div>
  <div class="case-ab">
  <div class="row was"><span>без своего дохода, «не знала, чего хочу от жизни и куда идти»</span></div>
@@ -1538,7 +1568,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <article class="case">
  <div class="case-top">
  <img src="assets/reviews/p3_09_nursulu_tsupko.jpg" alt="Нурсулу Цупко" width="64" height="64" loading="lazy">
- <div><div class="name">Нурсулу Цупко</div><div class="role">эксперт, выпускница 3 потока</div></div>
+ <div><div class="name"><a class="coach-name" href="/tsupko" data-coach-link="tsupko">Нурсулу Цупко</a></div><div class="role">эксперт, выпускница 3 потока</div><a class="coach-tag" href="/tsupko" data-coach-link="tsupko" aria-label="Записаться на сессию: Нурсулу Цупко, профиль коуча"><span class="ct-long">Ведёт сессии · записаться →</span><span class="ct-short">Записаться на сессию →</span></a></div>
  </div>
  <div class="case-ab">
  <div class="row was"><span>боялась проявляться, коучинг был одним из направлений «на пробу»</span></div>
@@ -1550,7 +1580,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <article class="case">
  <div class="case-top">
  <img src="assets/reviews/p3_05_linara_abdrafigina.jpg" alt="Линара Абдрафигина" width="64" height="64" loading="lazy">
- <div><div class="name">Линара Абдрафигина</div><div class="role">основательница мастерской ручной работы</div></div>
+ <div><div class="name"><a class="coach-name" href="/abdrafigina" data-coach-link="abdrafigina">Линара Абдрафигина</a></div><div class="role">основательница мастерской ручной работы</div><a class="coach-tag" href="/abdrafigina" data-coach-link="abdrafigina" aria-label="Записаться на сессию: Линара Абдрафигина, профиль коуча"><span class="ct-long">Ведёт сессии · записаться →</span><span class="ct-short">Записаться на сессию →</span></a></div>
  </div>
  <div class="case-ab">
  <div class="row was"><span>коучинг — второе дело при мастерской, клиенты только из круга знакомых</span></div>
@@ -1574,7 +1604,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <article class="case">
  <div class="case-top">
  <img src="assets/reviews/p3_03_elena_shik.jpg" alt="Елена Шик" width="64" height="64" loading="lazy">
- <div><div class="name">Елена Шик</div><div class="role">практикующий коуч</div></div>
+ <div><div class="name"><a class="coach-name" href="/schick" data-coach-link="schick">Елена Шик</a></div><div class="role">практикующий коуч</div><a class="coach-tag" href="/schick" data-coach-link="schick" aria-label="Записаться на сессию: Елена Шик, профиль коуча"><span class="ct-long">Ведёт сессии · записаться →</span><span class="ct-short">Записаться на сессию →</span></a></div>
  </div>
  <div class="case-ab">
  <div class="row was"><span>«учиться всегда легче, чем продавать» — уверенности в собственной практике не было</span></div>
@@ -1632,7 +1662,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <img src="assets/reviews/p2_03_veniamin_kozlovskiy.jpg" alt="Вениамин Козловский" width="560" height="560" loading="lazy">
  <span class="vplay" aria-hidden="true"></span>
  </button>
- <h3>Вениамин Козловский</h3>
+ <h3><a class="coach-name" href="/kozlovskiy" data-coach-link="kozlovskiy">Вениамин Козловский</a></h3>
+ <a class="coach-tag" href="/kozlovskiy" data-coach-link="kozlovskiy" aria-label="Записаться на сессию: Вениамин Козловский, профиль коуча"><span class="ct-long">Ведёт сессии · записаться →</span><span class="ct-short">Записаться на сессию →</span></a>
  <p class="vquote">«Попадаешь в ситуацию, в которой был полгода назад, и вдруг осознаёшь, что реагируешь совершенно по-другому»</p>
  </article>
  </div>
@@ -1721,7 +1752,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <div class="path-step"><span class="num">1</span><h3>Коуч-образование от 60 часов</h3><p>Аккредитованная ICF программа обучения (у нас — 75 часов) полностью закрывает это требование.</p></div>
  <div class="path-step"><span class="num">2</span><h3>100 часов практики</h3><p>Минимум 8 клиентов и 75 платных часов. Первых клиентов начинаете набирать уже во время программы.</p></div>
  <div class="path-step"><span class="num">3</span><h3>10 часов менторинга</h3><p>Уже включены в программу: 7 часов группового и 3 часа личного менторинга.</p></div>
- <div class="path-step"><span class="num">4</span><h3>Экзамен ICF</h3><p>Квалификационный экзамен ICF сдаётся онлайн. Готовим к нему на мастермайнде по сертификации внутри программы.</p></div>
+ <div class="path-step"><span class="num">4</span><h3>Экзамен ICF</h3><p>Квалификационный экзамен ICF сдаётся онлайн. Готовим к нему на мастермайнде по подготовке к квалификации внутри программы.</p></div>
  </div>
  <div class="path-cmp">
  <h3>Почему важна именно аккредитованная программа</h3>
@@ -1750,7 +1781,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <h2 class="sec-title">Три тарифа — разница в индивидуальной работе</h2>
  <p class="pricing-sub">Во всех тарифах — полная программа 75 часов, сертификат ICF Level 1 и <b>4 индивидуальные коуч-сессии</b>. Отличается уровень коуча, который работает с вами лично.</p>
  <p class="pricing-sub"><b>Рассрочка на 3, 6 или 12 месяцев</b> — чтобы платить частями и не откладывать старт. Работа с клиентами за деньги идёт параллельно обучению, а не после диплома.</p>
- <p class="pricing-sub">Стоимость обучения коучингу ICF фиксируется на собеседовании. В цену уже включены менторинг, супервизия и подготовка к сертификации ACC — у многих школ это отдельная доплата.</p>
+ <p class="pricing-sub">Стоимость обучения коучингу ICF фиксируется на собеседовании. В цену уже включены менторинг, супервизия и подготовка к заявке на квалификацию ACC — у многих школ это отдельная доплата.</p>
  <div class="ladder-note">
  <p class="ladder-next" id="ladder-next">Следующее повышение цены — <b id="ladder-date">26 сентября, 19:00</b> по центральноевропейскому времени: <b>+100 €</b> ко всем тарифам.</p>
  <p class="ladder-max">К старту потока 5 декабря цена достигнет максимума: «Мудрец» — <span>2&nbsp;500&nbsp;€</span>, «Правитель» — <span>3&nbsp;150&nbsp;€</span>, «Маг» — <span>3&nbsp;700&nbsp;€</span> одним платежом, в рассрочку — до 2&nbsp;900&nbsp;/ 3&nbsp;650&nbsp;/ 4&nbsp;300&nbsp;€. Сегодняшняя цена ниже — и на собеседовании она фиксируется за вами.</p>
@@ -1775,44 +1806,44 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <div class="plan featured">
  <span class="flag">Выбор большинства</span>
  <h3>Мудрец</h3>
- <p class="price"><span data-s="m-once">2 200</span> € <small>одним платежом</small></p>
- <p class="full"><span data-s="m-full12">2 550</span> € при рассрочке на 12 месяцев</p>
+ <p class="price"><span data-s="m-once">2 300</span> € <small>одним платежом</small></p>
+ <p class="full"><span data-s="m-full12">2 650</span> € при рассрочке на 12 месяцев</p>
  <ul>
  <li>Полная программа: 75 часов, менторинги, супервизия</li>
- <li>Сертификат ICF Level 1 + мастермайнд по ACC</li>
- <li>Курс «Профессия коуч» в подарок</li>
+ <li>Сертификат академии о прохождении программы, аккредитованной ICF (Level 1), и мастермайнд по подготовке к ACC</li>
+ <li>Курс «Коучинг для жизни и бизнеса» в подарок</li>
  <li>4 индивидуальные коуч-сессии с коучем по стандартам ICF</li>
  </ul>
- <p class="extra">Внутренняя рассрочка — <b>от <span data-s="m-month">213</span> €/мес</b></p>
- <p class="seats" data-s="m-seats">Всего <b>25 мест</b> в потоке</p>
+ <p class="extra">Внутренняя рассрочка — <b>от <span data-s="m-month">221</span> €/мес</b></p>
+ <p class="seats" data-s="m-seats">Всего <b>15 мест</b> в потоке</p>
  <a class="btn btn-lg" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20%C2%AB%D0%9C%D0%B0%D0%B3%D0%B8%D1%8F%20%D0%B8%20%D0%BD%D0%B0%D1%83%D0%BA%D0%B0%20%D0%BA%D0%BE%D1%83%D1%87%D0%B8%D0%BD%D0%B3%D0%B0%C2%BB" target="_blank" rel="noopener">Записаться на собеседование</a>
  </div>
  <div class="plan">
  <h3>Правитель</h3>
- <p class="price"><span data-s="p-once">2 850</span> € <small>одним платежом</small></p>
- <p class="full"><span data-s="p-full12">3 300</span> € при рассрочке на 12 месяцев</p>
+ <p class="price"><span data-s="p-once">2 950</span> € <small>одним платежом</small></p>
+ <p class="full"><span data-s="p-full12">3 400</span> € при рассрочке на 12 месяцев</p>
  <ul>
  <li>Всё из тарифа «Мудрец»</li>
  <li class="diff">4 индивидуальные коуч-сессии с коучем <b>PCC ICF</b> — уровень, к которому вы идёте</li>
  </ul>
- <p class="extra">Внутренняя рассрочка — <b>от <span data-s="p-month">275</span> €/мес</b></p>
+ <p class="extra">Внутренняя рассрочка — <b>от <span data-s="p-month">283</span> €/мес</b></p>
  <p class="seats" data-s="p-seats">Всего <b>3 места</b> в потоке</p>
  <a class="btn btn-lg" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20%C2%AB%D0%9C%D0%B0%D0%B3%D0%B8%D1%8F%20%D0%B8%20%D0%BD%D0%B0%D1%83%D0%BA%D0%B0%20%D0%BA%D0%BE%D1%83%D1%87%D0%B8%D0%BD%D0%B3%D0%B0%C2%BB" target="_blank" rel="noopener">Записаться на собеседование</a>
  </div>
  <div class="plan">
  <h3>Маг</h3>
- <p class="price"><span data-s="g-once">3 400</span> € <small>одним платежом</small></p>
- <p class="full"><span data-s="g-full12">3 950</span> € при рассрочке на 12 месяцев</p>
+ <p class="price"><span data-s="g-once">3 500</span> € <small>одним платежом</small></p>
+ <p class="full"><span data-s="g-full12">4 050</span> € при рассрочке на 12 месяцев</p>
  <ul>
  <li>Всё из тарифа «Мудрец»</li>
  <li class="diff">4 индивидуальные коуч-сессии лично с <b>Алексеем Якубаном</b> + стратегия вашей практики</li>
  </ul>
- <p class="extra">Внутренняя рассрочка — <b>от <span data-s="g-month">329</span> €/мес</b></p>
+ <p class="extra">Внутренняя рассрочка — <b>от <span data-s="g-month">338</span> €/мес</b></p>
  <p class="seats" data-s="g-seats">Всего <b>3 места</b> в потоке</p>
  <a class="btn btn-lg" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20%C2%AB%D0%9C%D0%B0%D0%B3%D0%B8%D1%8F%20%D0%B8%20%D0%BD%D0%B0%D1%83%D0%BA%D0%B0%20%D0%BA%D0%BE%D1%83%D1%87%D0%B8%D0%BD%D0%B3%D0%B0%C2%BB" target="_blank" rel="noopener">Записаться на собеседование</a>
  </div>
  </div>
- <p class="pricing-foot">Рассрочка доступна на 3, 6 и 12 месяцев — без банка и процентов. Стоимость программы растёт по расписанию повышений: цена фиксируется на собеседовании, и оно ни к чему не обязывает. Сомневаетесь? <a href="https://iakuban.com/reviews/level-1/">Посмотрите, что говорят выпускники →</a></p>
+ <p class="pricing-foot">Рассрочка доступна на 3, 6 и 12 месяцев — без банка. Стоимость программы растёт по расписанию повышений: цена фиксируется на собеседовании, и оно ни к чему не обязывает. Сомневаетесь? <a href="https://iakuban.com/reviews/level-1/">Посмотрите, что говорят выпускники →</a></p>
  </div>
 </section>
 
@@ -1851,7 +1882,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <div class="path-grid">
  <div class="path-step"><span class="num">1</span><h3>Онлайн и дистанционно</h3><p>Тренинги идут вживую в Zoom по субботам, менторинг и практика в тройках тоже дистанционно, поэтому учиться можно из любой страны и совмещать с работой. Записи занятий остаются у вас, но коучинг ставится только в живой практике с обратной связью.</p></div>
  <div class="path-step"><span class="num">2</span><h3>Сертификат, а не диплом</h3><p>Выпускник получает сертификат академии о прохождении аккредитованной ICF программы на 75 часов. Он закрывает требование ICF по коуч-образованию для звания ACC. Диплом государственного образца о переподготовке академия не выдаёт: в коучинге вес имеет аккредитация программы в ICF, а не лицензия на образование.</p></div>
- <div class="path-step"><span class="num">3</span><h3>Стоимость и рассрочка</h3><p>Три тарифа, разница только в объёме индивидуальной работы с ментором; актуальные цены в <a href="#pricing">разделе тарифов</a>. Внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов, цена фиксируется на собеседовании. Выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF.</p></div>
+ <div class="path-step"><span class="num">3</span><h3>Стоимость и рассрочка</h3><p>Три тарифа, разница только в объёме индивидуальной работы с ментором; актуальные цены в <a href="#pricing">разделе тарифов</a>. Внутренняя рассрочка на 3, 6 или 12 месяцев без банка, цена фиксируется на собеседовании. Выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF.</p></div>
  <div class="path-step"><span class="num">4</span><h3>С нуля и для психологов</h3><p>Программа рассчитана и на старт без опыта, и на практикующих специалистов. Психологам она добавляет коучинговую рамку рядом с терапией: что переносится из практики, что придётся переучить и как совмещать роли, разобрано в <a href="https://iakuban.com/kouching-dlya-psihologov/">гайде «Психолог-коуч»</a>.</p></div>
  </div>
  <p class="path-note">Сравниваете школы? Чек-лист из семи критериев в статье <a href="https://iakuban.com/articles/kak-vybrat-shkolu-kouchinga/">«Как выбрать школу коучинга»</a>, а полный маршрут от обучения до звания в гиде <a href="https://iakuban.com/kak-stat-kouchem-icf/">«Как стать коучем по стандартам ICF»</a>.</p>
@@ -1882,7 +1913,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </details>
  <details>
  <summary>Есть ли рассрочка?</summary>
- <p>Да, внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов. Например, тариф «Мудрец» — <b>от <span data-s="faq-month">213</span> € в месяц</b> при рассрочке на 12 месяцев.</p>
+ <p>Да, внутренняя рассрочка на 3, 6 или 12 месяцев без банка. Например, тариф «Мудрец» — <b>от <span data-s="faq-month">221</span> € в месяц</b> при рассрочке на 12 месяцев.</p>
  </details>
  <details>
  <summary>А если у меня не получится?</summary>
@@ -1890,11 +1921,11 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </details>
  <details>
  <summary>Когда появятся первые клиенты?</summary>
- <p>Платная практика начинается с первого месяца — в программе есть алгоритм выхода на первых клиентов и модуль «Продвижение коуча». Тамилла, например, заработала 500 000 ₽ уже в первый месяц практики. Как проходит сама первая встреча с клиентом, разобрано по шагам в гайде <a href="https://iakuban.com/first-session/">«12 шагов установочной сессии»</a>.</p>
+ <p>Платная практика начинается с первого месяца — в программе есть алгоритм выхода на первых клиентов и модуль «Продвижение коуча». Тамилла, например, заработала 500 000 ₽ уже в первый месяц практики (личный кейс, не гарантия результата). Как проходит сама первая встреча с клиентом, разобрано по шагам в гайде <a href="https://iakuban.com/first-session/">«12 шагов установочной сессии»</a>.</p>
  </details>
  <details>
  <summary>Что я получу после окончания?</summary>
- <p>Сертификат <b>ICF Level 1 (75 часов)</b>, подготовку к сертификации ACC ICF, клиентскую практику и доступ к сообществу выпускников. Дальше — Level 2 «Путь Алхимика» до уровня PCC.</p>
+ <p>Сертификат академии <b>о прохождении программы, аккредитованной ICF (Level 1), 75 часов</b>, подготовку к заявке на квалификацию ACC, клиентскую практику и доступ к сообществу выпускников. Дальше — Level 2 «Путь Алхимика» до уровня PCC.</p>
  </details>
  <details>
  <summary>Зачем вообще сертификация ICF?</summary>
@@ -1902,7 +1933,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </details>
  <details>
  <summary>Сколько стоит обучение коучингу ICF?</summary>
- <p>Тариф «Мудрец» стоит <b><span data-s="faq-m-once">2 200</span> €</b> одним платежом, «Правитель» <b><span data-s="faq-p-once">2 850</span> €</b>, «Маг» <b><span data-s="faq-g-once">3 400</span> €</b>. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов. В стоимость уже включены менторинг, супервизия и подготовка к сертификации ACC ICF, а выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки.</p>
+ <p>Тариф «Мудрец» стоит <b><span data-s="faq-m-once">2 300</span> €</b> одним платежом, «Правитель» <b><span data-s="faq-p-once">2 950</span> €</b>, «Маг» <b><span data-s="faq-g-once">3 500</span> €</b>. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка. В стоимость уже включены менторинг, супервизия и подготовка к заявке на квалификацию ACC, а выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки.</p>
  </details>
  <details>
  <summary>Что будет на собеседовании?</summary>
@@ -2016,6 +2047,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
  try{gtag('event','conversion',{'send_to':'AW-17650633966/8pFACJzSm-EcEO6ZveBB','transport_type':'beacon'});}catch(err){}
  try{gtag('event','cta_telegram_click',{'link_url':a.href,'transport_type':'beacon'});}catch(err){}
  try{ym(109783359,'reachGoal','cta_telegram_click',{link_url:a.href});}catch(err){}
+ },true);
+})();
+</script>
+<!-- Клик в профиль коуча-выпускника: событие coach_profile_click в GA4 и цель в Метрике (29.10.2026) -->
+<script>
+(function(){
+ document.addEventListener('click',function(e){
+ var a=e.target.closest&&e.target.closest('a[data-coach-link]');
+ if(!a)return;
+ var slug=a.getAttribute('data-coach-link'),place=a.classList.contains('coach-tag')?'tag':'name',block=a.closest('.vcard')?'video_reviews':'cases';
+ try{gtag('event','coach_profile_click',{'coach_slug':slug,'link_place':place,'page_block':block,'transport_type':'beacon'});}catch(err){}
+ try{ym(109783359,'reachGoal','coach_profile_click',{coach_slug:slug,link_place:place,page_block:block});}catch(err){}
  },true);
 })();
 </script>
