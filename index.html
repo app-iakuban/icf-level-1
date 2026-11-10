@@ -187,7 +187,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
         },
         {
           "@type": "Offer",
-          "name": "Тариф «Маг»",
+          "name": "Тариф «Личный Маг»",
           "price": "3500",
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
@@ -283,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "name": "Сколько стоит обучение коучингу ICF?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Тариф «Мудрец» стоит 2 300 € одним платежом, «Правитель» 2 950 €, «Маг» 3 500 €. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов. В стоимость включены менторинг, супервизия и подготовка к сертификации ACC ICF; выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки."
+            "text": "Тариф «Мудрец» стоит 2 300 € одним платежом, «Правитель» 2 950 €, «Личный Маг» 3 500 €. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка и процентов. В стоимость включены менторинг, супервизия и подготовка к сертификации ACC ICF; выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки."
           }
         },
         {
@@ -1079,13 +1079,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
    Схема воронки ПК: Marketing/scenarios/pk_funnel_entry.md */
 (function(){
   var TG = 'https://t.me/iakuban_team';
+  /* Вход платформы в «Коучинг для жизни и бизнеса» (08.11.2026): кнопки ведут на
+     iakuban.com/kpzh?src=<КОД>, он сразу открывает канал потока. Чтобы атрибуция
+     не терялась, к таким ссылкам дописываем код визита (v=) и UTM первого захода,
+     /kpzh пишет их в pk_entry_clicks. Marketing/scenarios/pk_funnel_entry.md */
+  var KPZH = 'https://iakuban.com/kpzh';
 
   function get(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }
   function set(k,v){ try { sessionStorage.setItem(k,v); } catch(e){} }
 
   // источник запоминаем на первой странице визита: дальше по сайту query теряется
-  if(/[?&](utm_|gclid|yclid|gad_|fbclid)/.test(location.search) && !get('ihLeadSrc')){
+  if(/[?&](utm_|gclid|yclid|gad_|fbclid|ref=)/.test(location.search) && !get('ihLeadSrc')){
     set('ihLeadSrc', location.search.slice(1));
+  }
+
+  /* Первое касание (09.11.2026): тот же ключ и формат, что у chat-widget.js и
+     Nuxt (lib/firstTouch.ts) — sessionStorage = вход вкладки, localStorage =
+     самый первый вход браузера. Формы лендингов шлют оба в POST /leads/landing,
+     клик в Telegram — в HEAD-пинг (ft_ref, ft_land): лид пишет через неделю,
+     а откуда он пришёл впервые, видно в access-логе рядом с кодом.
+     Канал раскладывает бэкенд (traffic_channel.py) и lead_watch.py. */
+  var FT = 'iakuban_first_touch';
+  var ftNow = JSON.stringify({referrer: String(document.referrer || '').slice(0, 500),
+    landing_url: String(location.href).slice(0, 500), at: new Date().toISOString()});
+  try { if(!sessionStorage.getItem(FT)) sessionStorage.setItem(FT, ftNow); } catch(e){}
+  try { if(!localStorage.getItem(FT)) localStorage.setItem(FT, ftNow); } catch(e){}
+  function firstTouch(){
+    var t = null;
+    try { t = JSON.parse(localStorage.getItem(FT) || 'null'); } catch(e){}
+    if(!t){ try { t = JSON.parse(sessionStorage.getItem(FT) || 'null'); } catch(e){} }
+    return t || JSON.parse(ftNow);
   }
 
   var code = get('ihLeadCode');
@@ -1108,16 +1131,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
         links[i].href = u.origin + u.pathname + '?text=' + encodeURIComponent(t + '\n\n' + label + code);
       }catch(e){}
     }
+    var first = new URLSearchParams(get('ihLeadSrc') || '');
+    var kp = document.querySelectorAll('a[href^="' + KPZH + '"]');
+    for(var k=0;k<kp.length;k++){
+      try{
+        var ku = new URL(kp[k].href);
+        if(ku.searchParams.get('v')) continue;
+        ku.searchParams.set('v', code);
+        first.forEach(function(val, key){
+          if(key.indexOf('utm_') === 0 && !ku.searchParams.get(key)) ku.searchParams.set(key, val);
+        });
+        kp[k].href = ku.toString();
+      }catch(e){}
+    }
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', decorate);
   else decorate();
 
   document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a[href^="https://t.me/"]');
+    var a = e.target.closest && e.target.closest('a[href^="https://t.me/"],a[href^="' + KPZH + '"]');
     if(!a) return;
     var q = 'ihlc=' + code +
       '&src=' + encodeURIComponent(get('ihLeadSrc') || '') +
       '&ref=' + encodeURIComponent(document.referrer || '');
+    var ft = firstTouch();
+    q += '&ft_ref=' + encodeURIComponent(String(ft.referrer || '').slice(0, 200)) +
+      '&ft_land=' + encodeURIComponent(String(ft.landing_url || '').slice(0, 300)) +
+      '&ft_at=' + encodeURIComponent(String(ft.at || '').slice(0, 10));
     try { fetch(location.pathname + '?' + q, {method:'HEAD', keepalive:true, cache:'no-store'}); } catch(err){}
     try { gtag('event','tg_lead_code',{'lead_code': code, 'transport_type':'beacon'}); } catch(err){}
   }, true);
@@ -1127,7 +1167,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
      и тот же виджет работает и здесь, и на страницах платформы. Подключение
      живёт в шапке, потому что она уже разъезжается по всем лендингам одной
      командой и другого общего блока у статики нет. -->
-<script src="https://iakuban.com/chat-widget.js?v=20261031-1" defer></script>
+<script src="https://iakuban.com/chat-widget.js?v=20261109-1" defer></script>
 <!-- IH-HEADER:END -->
 
 <main>
@@ -1417,7 +1457,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>65 часов</b> живого тренинга с PCC-тренерами</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Все <b>8 компетенций ICF</b> до уровня ACC</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Практика в тройках на каждом тренинге</span></li>
- <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Курс <b>«Коучинг для жизни и бизнеса»</b> — сразу после оплаты</span></li>
  </ul>
  </div>
  <div class="inc-group">
@@ -1784,7 +1823,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <p class="pricing-sub">Стоимость обучения коучингу ICF фиксируется на собеседовании. В цену уже включены менторинг, супервизия и подготовка к заявке на квалификацию ACC — у многих школ это отдельная доплата.</p>
  <div class="ladder-note">
  <p class="ladder-next" id="ladder-next">Следующее повышение цены — <b id="ladder-date">26 сентября, 19:00</b> по центральноевропейскому времени: <b>+100 €</b> ко всем тарифам.</p>
- <p class="ladder-max">К 5 декабря цена достигнет максимума: «Мудрец» — <span>2&nbsp;500&nbsp;€</span>, «Правитель» — <span>3&nbsp;150&nbsp;€</span>, «Маг» — <span>3&nbsp;700&nbsp;€</span> одним платежом, в рассрочку — до 2&nbsp;900&nbsp;/ 3&nbsp;650&nbsp;/ 4&nbsp;300&nbsp;€. Сегодняшняя цена ниже — и на собеседовании она фиксируется за вами.</p>
+ <p class="ladder-max">К 5 декабря цена достигнет максимума: «Мудрец» — <span>2&nbsp;500&nbsp;€</span>, «Правитель» — <span>3&nbsp;150&nbsp;€</span>, «Личный Маг» — <span>3&nbsp;700&nbsp;€</span> одним платежом, в рассрочку — до 2&nbsp;900&nbsp;/ 3&nbsp;650&nbsp;/ 4&nbsp;300&nbsp;€. Сегодняшняя цена ниже — и на собеседовании она фиксируется за вами.</p>
  </div>
  <script>
  (function(){
@@ -1811,7 +1850,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <ul>
  <li>Полная программа: 75 часов, менторинги, супервизия</li>
  <li>Сертификат академии о прохождении программы, аккредитованной ICF (Level 1), и мастермайнд по подготовке к ACC</li>
- <li>Курс «Коучинг для жизни и бизнеса» в подарок</li>
  <li>4 индивидуальные коуч-сессии с коучем по стандартам ICF</li>
  </ul>
  <p class="extra">Внутренняя рассрочка — <b>от <span data-s="m-month">221</span> €/мес</b></p>
@@ -1831,7 +1869,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <a class="btn btn-lg" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D1%81%D0%BE%D0%B1%D0%B5%D1%81%D0%B5%D0%B4%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20%C2%AB%D0%9C%D0%B0%D0%B3%D0%B8%D1%8F%20%D0%B8%20%D0%BD%D0%B0%D1%83%D0%BA%D0%B0%20%D0%BA%D0%BE%D1%83%D1%87%D0%B8%D0%BD%D0%B3%D0%B0%C2%BB" target="_blank" rel="noopener">Записаться на собеседование</a>
  </div>
  <div class="plan">
- <h3>Маг</h3>
+ <h3>Личный Маг</h3>
  <p class="price"><span data-s="g-once">3 500</span> € <small>одним платежом</small></p>
  <p class="full"><span data-s="g-full12">4 050</span> € при рассрочке на 12 месяцев</p>
  <ul>
@@ -1933,7 +1971,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </details>
  <details>
  <summary>Сколько стоит обучение коучингу ICF?</summary>
- <p>Тариф «Мудрец» стоит <b><span data-s="faq-m-once">2 300</span> €</b> одним платежом, «Правитель» <b><span data-s="faq-p-once">2 950</span> €</b>, «Маг» <b><span data-s="faq-g-once">3 500</span> €</b>. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка. В стоимость уже включены менторинг, супервизия и подготовка к заявке на квалификацию ACC, а выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки.</p>
+ <p>Тариф «Мудрец» стоит <b><span data-s="faq-m-once">2 300</span> €</b> одним платежом, «Правитель» <b><span data-s="faq-p-once">2 950</span> €</b>, «Личный Маг» <b><span data-s="faq-g-once">3 500</span> €</b>. Цена фиксируется на собеседовании, доступна внутренняя рассрочка на 3, 6 или 12 месяцев без банка. В стоимость уже включены менторинг, супервизия и подготовка к заявке на квалификацию ACC, а выпускник аккредитованной программы дополнительно экономит до $300 на пошлине ICF при подаче заявки.</p>
  </details>
  <details>
  <summary>Что будет на собеседовании?</summary>
