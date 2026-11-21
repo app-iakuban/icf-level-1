@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
           "availability": "https://schema.org/InStock",
-          "priceValidUntil": "2026-11-20"
+          "priceValidUntil": "2026-11-21"
         },
         {
           "@type": "Offer",
@@ -183,7 +183,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
           "availability": "https://schema.org/InStock",
-          "priceValidUntil": "2026-11-20"
+          "priceValidUntil": "2026-11-21"
         },
         {
           "@type": "Offer",
@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "priceCurrency": "EUR",
           "url": "https://iakuban.com/icf-level-1/",
           "availability": "https://schema.org/InStock",
-          "priceValidUntil": "2026-11-20"
+          "priceValidUntil": "2026-11-21"
         }
       ],
       "hasCourseInstance": {
@@ -267,7 +267,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
           "name": "Что я получу после окончания?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Сертификат академии о прохождении программы, аккредитованной ICF (Level 1), 75 часов, подготовку к заявке на квалификацию ACC, клиентскую практику и доступ к сообществу выпускников. Дальше вторая ступень (программа уровня Level 2) и подготовка к заявке на PCC."
+            "text": "Сертификат академии о прохождении программы, аккредитованной ICF (Level 1), 75 часов, подготовку к заявке на квалификацию ACC, клиентскую практику и доступ к сообществу выпускников. Дальше программа уровня Level 2 и подготовка к заявке на PCC."
           }
         },
         {
@@ -454,6 +454,19 @@ document.addEventListener("DOMContentLoaded", function(event) {
  .sys-card p b{color:#fff;font-weight:500}
  .values-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px}
  .val-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:18px;padding:26px 24px}
+
+ /* Фото выпускницы в блоке «просто с сертификатом» */
+ .system-layout{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:26px;margin-top:48px;align-items:stretch}
+ .system-layout .system-grid{grid-template-columns:1fr;margin-top:0;align-content:stretch}
+ .grad-photo{margin:0;background:var(--paper);border-radius:22px;padding:10px 10px 0;align-self:start;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+ .grad-photo img{display:block;width:100%;height:auto;aspect-ratio:900/985;object-fit:cover;border-radius:14px}
+ .grad-photo figcaption{font-size:14px;line-height:1.45;color:#3A3A40;padding:12px 8px 14px}
+ .grad-photo figcaption b{color:var(--dark);font-weight:600}
+ @media (max-width:1020px){
+ .system-layout{grid-template-columns:1fr}
+ .grad-photo{max-width:520px;width:100%;justify-self:center}
+ .grad-photo img{aspect-ratio:4/5;object-position:100% 50%}
+ }
  .val-name{font-family:var(--headline);font-weight:500;font-size:19px;margin-bottom:10px;
  background:linear-gradient(100deg,#9DB4FF,#5C7CFF 55%,#8F6BFF);-webkit-background-clip:text;
  background-clip:text;color:transparent;display:inline-block}
@@ -669,7 +682,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  /* ─── СЕРТИФИКАТ ─── */
  .cert{padding:110px 0 100px}
  .cert-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
- .cert-img{width:100%;border-radius:14px;box-shadow:0 30px 70px rgba(20,20,30,.18);display:block}
+ .cert-img{width:100%;height:auto;aspect-ratio:1024/723;object-fit:contain;border-radius:14px;box-shadow:0 30px 70px rgba(20,20,30,.18);display:block}
  .cert-body p{font-size:16.5px;line-height:1.65;color:#4A4A4F;margin-top:18px}
  .cert-body p b{color:#212121;font-weight:600}
  .cert-accr{display:flex;align-items:center;gap:18px;margin-top:30px;background:#fff;
@@ -1079,13 +1092,36 @@ document.addEventListener("DOMContentLoaded", function(event) {
    Схема воронки ПК: Marketing/scenarios/pk_funnel_entry.md */
 (function(){
   var TG = 'https://t.me/iakuban_team';
+  /* Вход платформы в «Коучинг для жизни и бизнеса» (08.11.2026): кнопки ведут на
+     iakuban.com/kpzh?src=<КОД>, он сразу открывает канал потока. Чтобы атрибуция
+     не терялась, к таким ссылкам дописываем код визита (v=) и UTM первого захода,
+     /kpzh пишет их в pk_entry_clicks. Marketing/scenarios/pk_funnel_entry.md */
+  var KPZH = 'https://iakuban.com/kpzh';
 
   function get(k){ try { return sessionStorage.getItem(k); } catch(e){ return null; } }
   function set(k,v){ try { sessionStorage.setItem(k,v); } catch(e){} }
 
   // источник запоминаем на первой странице визита: дальше по сайту query теряется
-  if(/[?&](utm_|gclid|yclid|gad_|fbclid)/.test(location.search) && !get('ihLeadSrc')){
+  if(/[?&](utm_|gclid|yclid|gad_|fbclid|ref=)/.test(location.search) && !get('ihLeadSrc')){
     set('ihLeadSrc', location.search.slice(1));
+  }
+
+  /* Первое касание (09.11.2026): тот же ключ и формат, что у chat-widget.js и
+     Nuxt (lib/firstTouch.ts) — sessionStorage = вход вкладки, localStorage =
+     самый первый вход браузера. Формы лендингов шлют оба в POST /leads/landing,
+     клик в Telegram — в HEAD-пинг (ft_ref, ft_land): лид пишет через неделю,
+     а откуда он пришёл впервые, видно в access-логе рядом с кодом.
+     Канал раскладывает бэкенд (traffic_channel.py) и lead_watch.py. */
+  var FT = 'iakuban_first_touch';
+  var ftNow = JSON.stringify({referrer: String(document.referrer || '').slice(0, 500),
+    landing_url: String(location.href).slice(0, 500), at: new Date().toISOString()});
+  try { if(!sessionStorage.getItem(FT)) sessionStorage.setItem(FT, ftNow); } catch(e){}
+  try { if(!localStorage.getItem(FT)) localStorage.setItem(FT, ftNow); } catch(e){}
+  function firstTouch(){
+    var t = null;
+    try { t = JSON.parse(localStorage.getItem(FT) || 'null'); } catch(e){}
+    if(!t){ try { t = JSON.parse(sessionStorage.getItem(FT) || 'null'); } catch(e){} }
+    return t || JSON.parse(ftNow);
   }
 
   var code = get('ihLeadCode');
@@ -1108,16 +1144,33 @@ document.addEventListener("DOMContentLoaded", function(event) {
         links[i].href = u.origin + u.pathname + '?text=' + encodeURIComponent(t + '\n\n' + label + code);
       }catch(e){}
     }
+    var first = new URLSearchParams(get('ihLeadSrc') || '');
+    var kp = document.querySelectorAll('a[href^="' + KPZH + '"]');
+    for(var k=0;k<kp.length;k++){
+      try{
+        var ku = new URL(kp[k].href);
+        if(ku.searchParams.get('v')) continue;
+        ku.searchParams.set('v', code);
+        first.forEach(function(val, key){
+          if(key.indexOf('utm_') === 0 && !ku.searchParams.get(key)) ku.searchParams.set(key, val);
+        });
+        kp[k].href = ku.toString();
+      }catch(e){}
+    }
   }
   if(document.readyState === 'loading') document.addEventListener('DOMContentLoaded', decorate);
   else decorate();
 
   document.addEventListener('click', function(e){
-    var a = e.target.closest && e.target.closest('a[href^="https://t.me/"]');
+    var a = e.target.closest && e.target.closest('a[href^="https://t.me/"],a[href^="' + KPZH + '"]');
     if(!a) return;
     var q = 'ihlc=' + code +
       '&src=' + encodeURIComponent(get('ihLeadSrc') || '') +
       '&ref=' + encodeURIComponent(document.referrer || '');
+    var ft = firstTouch();
+    q += '&ft_ref=' + encodeURIComponent(String(ft.referrer || '').slice(0, 200)) +
+      '&ft_land=' + encodeURIComponent(String(ft.landing_url || '').slice(0, 300)) +
+      '&ft_at=' + encodeURIComponent(String(ft.at || '').slice(0, 10));
     try { fetch(location.pathname + '?' + q, {method:'HEAD', keepalive:true, cache:'no-store'}); } catch(err){}
     try { gtag('event','tg_lead_code',{'lead_code': code, 'transport_type':'beacon'}); } catch(err){}
   }, true);
@@ -1127,7 +1180,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
      и тот же виджет работает и здесь, и на страницах платформы. Подключение
      живёт в шапке, потому что она уже разъезжается по всем лендингам одной
      командой и другого общего блока у статики нет. -->
-<script src="https://iakuban.com/chat-widget.js?v=20261031-1" defer></script>
+<script src="https://iakuban.com/chat-widget.js?v=20261119-1" defer></script>
 <!-- IH-HEADER:END -->
 
 <main>
@@ -1154,7 +1207,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <img src="assets/Kolpakova_Natalia.jpg" alt="" width="58" height="58">
  <img src="assets/mariyalanda.jpg" alt="" width="58" height="58">
  </div>
- <span><b>Выпускники трёх потоков первой ступени</b> уже практикуют как коучи по стандартам ICF</span>
+ <span><b>Выпускники трёх потоков программы уровня Level&nbsp;1</b> уже практикуют как коучи по стандартам ICF</span>
  </div>
  </div>
  <div class="photo-wrap">
@@ -1286,6 +1339,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <div class="wrap">
  <p class="sec-eyebrow">Почему у нас получается</p>
  <h2 class="sec-title">Как не остаться «просто с сертификатом»</h2>
+ <div class="system-layout">
  <div class="system-grid">
  <div class="sys-card problem">
  <span class="lbl">Проблема рынка</span>
@@ -1297,6 +1351,14 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <h3>Обучение, практика и первые клиенты — в одном контуре</h3>
  <p><b>Платная практика начинается ещё до конца программы</b> — по алгоритму и с поддержкой команды.</p>
  </div>
+ </div>
+ <figure class="grad-photo">
+ <picture>
+ <source srcset="assets/graduate-shakhnazarova.webp?v=20261111-logo" type="image/webp">
+ <img src="assets/graduate-shakhnazarova.jpg?v=20261111-logo" width="900" height="985" loading="lazy" decoding="async" alt="Наталия Шахназарова, выпускница аккредитованной ICF программы (Level 1), ноябрь 2026">
+ </picture>
+ <figcaption><b>Наталия Шахназарова</b>, выпускница программы уровня Level&nbsp;1, ноябрь 2026</figcaption>
+ </figure>
  </div>
  <div class="values-grid">
  <div class="val-card">
@@ -1417,7 +1479,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span><b>65 часов</b> живого тренинга с PCC-тренерами</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Все <b>8 компетенций ICF</b> до уровня ACC</span></li>
  <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Практика в тройках на каждом тренинге</span></li>
- <li><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10.5l4 4 8-9" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Курс <b>«Коучинг для жизни и бизнеса»</b> — сразу после оплаты</span></li>
  </ul>
  </div>
  <div class="inc-group">
@@ -1572,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </div>
  <div class="case-ab">
  <div class="row was"><span>боялась проявляться, коучинг был одним из направлений «на пробу»</span></div>
- <div class="row now"><span>пошла в проявленность: охваты рилс выросли на 100%, два клиента в долгом контракте, впереди вторая ступень</span></div>
+ <div class="row now"><span>пошла в проявленность: охваты рилс выросли на 100%, два клиента в долгом контракте, впереди программа уровня Level&nbsp;2</span></div>
  </div>
  <q>Здесь человек реально получает не только теорию, но и навык работать с клиентами.</q>
  <button class="cvideo" data-video="https://kinescope.io/embed/0p7dy34naZgDuaex1zTGF8" data-name="Нурсулу Цупко" data-quote="«Здесь человек реально получает не только теорию, но и навык работать с клиентами.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
@@ -1584,7 +1645,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </div>
  <div class="case-ab">
  <div class="row was"><span>коучинг — второе дело при мастерской, клиенты только из круга знакомых</span></div>
- <div class="row now"><span>пять клиенток в долгосрочных контрактах, 100+ часов практики; осенью — подача на ACC ICF, дальше вторая ступень</span></div>
+ <div class="row now"><span>пять клиенток в долгосрочных контрактах, 100+ часов практики; осенью — подача на ACC ICF, дальше программа уровня Level&nbsp;2</span></div>
  </div>
  <q>Я просто была поражена, насколько мне этот коучинг ложится.</q>
  <button class="cvideo" data-video="https://kinescope.io/embed/vxADryn6MBMYsQfvADvgZV" data-name="Линара Абдрафигина" data-quote="«Я просто была поражена, насколько мне этот коучинг ложится.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
@@ -1608,7 +1669,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </div>
  <div class="case-ab">
  <div class="row was"><span>«учиться всегда легче, чем продавать» — уверенности в собственной практике не было</span></div>
- <div class="row now"><span>твёрдое «я знаю, что у меня коучинг получается» — продолжает путь в академии на второй ступени</span></div>
+ <div class="row now"><span>твёрдое «я знаю, что у меня коучинг получается» — продолжает путь в академии на программе уровня Level&nbsp;2</span></div>
  </div>
  <q>Я прошла такую внутреннюю трансформацию: то, что сейчас, — совсем другое, чем то, что было три месяца назад.</q>
  <button class="cvideo" data-video="https://kinescope.io/embed/dr1XbZku2RxYaypxoJrtkL" data-name="Елена Шик" data-quote="«Я прошла такую внутреннюю трансформацию: то, что сейчас, — совсем другое, чем то, что было три месяца назад.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
@@ -1620,7 +1681,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </div>
  <div class="case-ab">
  <div class="row was"><span>третье обучение коучингу — и всё ещё не мог отделить профессию от инфобизнеса; за спиной 20 лет корпоративных привычек</span></div>
- <div class="row now"><span>выстроил свой подход — карьерное консультирование с коучингом внутри; ассистировал на следующем потоке, продолжает на второй ступени</span></div>
+ <div class="row now"><span>выстроил свой подход — карьерное консультирование с коучингом внутри; ассистировал на следующем потоке, продолжает обучение на программе уровня Level&nbsp;2</span></div>
  </div>
  <q>Не всегда видно, как дерево делает корни, — реагируют на крону. Но без глубоких корней такой кроны не будет.</q>
  <button class="cvideo" data-video="https://kinescope.io/embed/6FG9i6PJuosnDNhFnBT3vX" data-name="Дмитрий Мелихов" data-quote="«В середине накрыла трансформация, и было достаточно тяжело. Сейчас я понял, что это только начало... Чувствую себя на пороге ещё большей трансформации.»"><span class="ic" aria-hidden="true"></span>Смотреть видеоотзыв</button>
@@ -1638,7 +1699,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 <section class="vreviews">
  <div class="wrap">
  <div class="cases-head">
- <h2 class="sec-title">Отзывы выпускников первой ступени</h2>
+ <h2 class="sec-title">Отзывы выпускников программы уровня Level&nbsp;1</h2>
  </div>
  <div class="vrow">
  <article class="vcard">
@@ -1667,7 +1728,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <p class="vquote">«Попадаешь в ситуацию, в которой был полгода назад, и вдруг осознаёшь, что реагируешь совершенно по-другому»</p>
  </article>
  </div>
- <p class="vrow-more"><a href="https://iakuban.com/reviews/level-1/">Все видеоотзывы выпускников первой ступени →</a></p>
+ <p class="vrow-more"><a href="https://iakuban.com/reviews/level-1/">Все видеоотзывы выпускников программы уровня Level&nbsp;1 →</a></p>
  </div>
 </section>
 
@@ -1680,12 +1741,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <img src="assets/aleksei.jpg" alt="Алексей Якубан" width="340" height="360" loading="lazy">
  <div>
  <h3>Алексей Якубан</h3>
- <p class="role">Коуч PCC ICF · автор программы · лично ведёт тренинги первой ступени</p>
+ <p class="role">Коуч PCC ICF · автор программы · лично ведёт тренинги программы уровня Level&nbsp;1</p>
  <p>2&nbsp;500+ часов коучинговой практики. Построил академию. Ведёт каждый тренинг потока сам — <b>вы учитесь у практикующего коуча, а не по записям</b>.</p>
  <div class="lead-facts">
  <div class="lead-fact"><div class="v">2&nbsp;500+</div><div class="l">часов практики</div></div>
  <div class="lead-fact"><div class="v">63</div><div class="l">видеоистории выпускников</div></div>
- <div class="lead-fact"><div class="v">3 потока</div><div class="l">первой ступени выпущены под его руководством</div></div>
+ <div class="lead-fact"><div class="v">3 потока</div><div class="l">программы уровня Level&nbsp;1 выпущены под его руководством</div></div>
  </div>
  </div>
  </div>
@@ -1702,18 +1763,18 @@ document.addEventListener("DOMContentLoaded", function(event) {
 <section class="cert">
  <div class="wrap">
  <div class="cert-grid">
- <img class="cert-img" src="assets/icf_certificate.png" alt="Сертификат ICF Level 1" width="560" height="396" loading="lazy">
+ <img class="cert-img" src="assets/icf_certificate_l1_masked.png?v=20261112b" alt="Образец сертификата академии о прохождении аккредитованной ICF программы (Level 1, 75 часов)" width="560" height="396" loading="lazy">
  <div class="cert-body">
- <h2 class="sec-title">Сертификат ICF Level 1</h2>
+ <h2 class="sec-title">Сертификат ICF Level&nbsp;1</h2>
  <p>По итогам программы вы получаете сертификат <b>ICF Level 1 (75 часов)</b> — документ международного стандарта, который признаётся в 140+ странах и готовит вас к сертификации <b>ACC ICF</b>.</p>
  <p>Мастермайнд по сертификации внутри программы: разберём требования ICF и соберём вашу заявку на ACC без лишних загадок.</p>
  <div class="cert-accr">
  <img src="assets/icf_accreditation.png" alt="Знак ICF Level 1 Accredited Coaching Education" loading="lazy">
- <span><b>Iakuban Coaching Academy — аккредитованный ICF провайдер коуч-образования уровня Level 1.</b></span>
+ <span><b>Iakuban Coaching Academy — аккредитованный ICF провайдер коуч-образования уровня Level&nbsp;1.</b></span>
  </div>
  <!-- Проверяемое доказательство аккредитации: реестр ICF (SEO, 07.09.2026).
       Карточка организации своего адреса в реестре не имеет, поэтому даём инструкцию поиска. -->
- <p style="font-size:14px;line-height:1.55;color:#6A6A70;margin-top:14px">Аккредитация подтверждается в публичном реестре ICF: откройте <a href="https://apps.coachingfederation.org/eweb/DynamicPage.aspx?webcode=ESS" target="_blank" rel="noopener" style="color:#6A6A70;text-decoration:underline;text-underline-offset:3px">Education Search Service</a> и введите «Iakuban» в поле Accredited Organization. Аккредитация уровня Level 1 действует до 31.07.2028.</p>
+ <p style="font-size:14px;line-height:1.55;color:#6A6A70;margin-top:14px">Аккредитация подтверждается в публичном реестре ICF: откройте <a href="https://apps.coachingfederation.org/eweb/DynamicPage.aspx?webcode=ESS" target="_blank" rel="noopener" style="color:#6A6A70;text-decoration:underline;text-underline-offset:3px">Education Search Service</a> и введите «Iakuban» в поле Accredited Organization. Аккредитация уровня Level&nbsp;1 действует до 31.07.2028.</p>
  </div>
  </div>
  </div>
@@ -1767,7 +1828,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </tbody>
  </table>
  </div>
- <p class="path-win">Выпускник аккредитованной программы экономит на заявке <b>до $300 пошлины и около 10 недель ожидания</b>, и ему не нужно ничего доказывать ICF задним числом. После ACC следующая ступень — PCC: к ней ведёт <a href="https://iakuban.com/icf-level-2/">вторая ступень, программа «Путь Алхимика» (аккредитация ICF, Level 2)</a>.</p>
+ <p class="path-win">Выпускник аккредитованной программы экономит на заявке <b>до $300 пошлины и около 10 недель ожидания</b>, и ему не нужно ничего доказывать ICF задним числом. После ACC следующий шаг — PCC: к нему ведёт <a href="https://iakuban.com/icf-level-2/">программа «Путь Алхимика» (аккредитация ICF, Level 2)</a>.</p>
  <p class="path-note">Пошлины и сроки: данные coachingfederation.org, август 2026. Экзамен ICF обязателен на обоих путях. Полная карта пути — уровни, стоимость, реалистичные сроки — в гиде <a href="https://iakuban.com/kak-stat-kouchem-icf/">«Как стать коучем по стандартам ICF»</a>.</p>
  </div>
  </div>
@@ -1811,7 +1872,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <ul>
  <li>Полная программа: 75 часов, менторинги, супервизия</li>
  <li>Сертификат академии о прохождении программы, аккредитованной ICF (Level 1), и мастермайнд по подготовке к ACC</li>
- <li>Курс «Коучинг для жизни и бизнеса» в подарок</li>
  <li>4 индивидуальные коуч-сессии с коучем по стандартам ICF</li>
  </ul>
  <p class="extra">Внутренняя рассрочка — <b>от <span data-s="m-month">221</span> €/мес</b></p>
@@ -1925,7 +1985,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  </details>
  <details>
  <summary>Что я получу после окончания?</summary>
- <p>Сертификат академии <b>о прохождении программы, аккредитованной ICF (Level 1), 75 часов</b>, подготовку к заявке на квалификацию ACC, клиентскую практику и доступ к сообществу выпускников. Дальше вторая ступень, программа «Путь Алхимика» (Level 2), и подготовка к заявке на PCC.</p>
+ <p>Сертификат академии <b>о прохождении программы, аккредитованной ICF (Level 1), 75 часов</b>, подготовку к заявке на квалификацию ACC, клиентскую практику и доступ к сообществу выпускников. Дальше программа «Путь Алхимика» (уровень Level 2) и подготовка к заявке на PCC.</p>
  </details>
  <details>
  <summary>Зачем вообще сертификация ICF?</summary>
@@ -1949,7 +2009,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
  <div class="t">Остался вопрос?</div>
  <div class="s">Напишите нам — ответим лично</div>
  </div>
- <a class="btn btn-sm" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A3%20%D0%BC%D0%B5%D0%BD%D1%8F%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20ICF%20Level%201" target="_blank" rel="noopener">Написать в Telegram</a>
+ <a class="btn btn-sm" href="https://t.me/iakuban_team?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A3%20%D0%BC%D0%B5%D0%BD%D1%8F%20%D0%B2%D0%BE%D0%BF%D1%80%D0%BE%D1%81%20%D0%BF%D0%BE%20%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%B5%20%C2%AB%D0%9C%D0%B0%D0%B3%D0%B8%D1%8F%20%D0%B8%20%D0%BD%D0%B0%D1%83%D0%BA%D0%B0%20%D0%BA%D0%BE%D1%83%D1%87%D0%B8%D0%BD%D0%B3%D0%B0%C2%BB%20%28Level%201%29" target="_blank" rel="noopener">Написать в Telegram</a>
  </div>
  </div>
 </section>
